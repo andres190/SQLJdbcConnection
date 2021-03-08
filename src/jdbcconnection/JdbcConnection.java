@@ -36,13 +36,28 @@ public class JdbcConnection {
             conn = DriverManager.getConnection(url, databaseUserName, databasePassword);
             stmt = conn.createStatement();
             result = null;
-            String lon,lat;
-            result = stmt.executeQuery("select * from tPosition_last ");
+            String carNO, machineNO, lon, lat, gpsTime, status,simNO, mileage, temperature ;
+            int speed, direction ;
+            
+            
+            
+            result = stmt.executeQuery("select carNo, machineNO, lo, la, gpsTime, status, speed, mileage, direction, simNO, temperature  from tPosition_last, tCar where tPosition_last.carID = tCar.carID ");
 
             while (result.next()) {
+                carNO=result.getString("carNO");
+                machineNO=result.getString("machineNO");
+                gpsTime=result.getString("gpsTime");
+                status=result.getString("status");
+                speed=result.getInt("speed");
+                mileage=result.getString("mileage");
                 lon=result.getString("lo");
-                lat = result.getString("la");              
-                System.out.println(lon+"  "+lat);
+                lat = result.getString("la");
+                direction=result.getInt("direction");
+                simNO=result.getString("simNO");
+                temperature=result.getString("temperature");
+                System.out.println(carNO+","+machineNO+","+gpsTime+","+status+","+speed+","+mileage+","+lon+","+lat+","+direction+","+simNO+","+temperature);
+                
+                
             }
 
             conn.close();
